@@ -109,7 +109,7 @@ export PROJECT_HOME=$HOME/projects      # Optional
 # problems with installation 
 # https://virtualenvwrapper.readthedocs.io/en/latest/install.html#python-interpreter-virtualenv-and-path
 # https://medium.com/@gitudaniel/installing-virtualenvwrapper-for-python3-ad3dfea7c717
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.11
 export VIRTUALENVWRAPPER_VIRTUALENV=~/.local/bin/virtualenv
 
 ## this may fix error
@@ -221,3 +221,28 @@ export PATH="/usr/lib/ccache:$PATH"
 if [ -f ~/reposWork/.zshrc ]; then
     source ~/.zsh/zshalias
 fi
+
+
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/terraform terraform
+
+if command -v kubectl &> /dev/null; then
+    source <(kubectl completion zsh)
+fi
+if command -v minikube &> /dev/null; then
+    source <(minikube completion zsh)
+fi
+fpath=(~/.stripe $fpath)
+autoload -Uz compinit && compinit -i
+
+alias gcloud_project="gcloud config get-value project"eval 
+TWILIO_AC_ZSH_SETUP_PATH=/home/marvin/.twilio-cli/autocomplete/zsh_setup && test -f $TWILIO_AC_ZSH_SETUP_PATH && source $TWILIO_AC_ZSH_SETUP_PATH; # twilio autocomplete setup
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/marvin/sdk/google-cloud-sdk/path.zsh.inc' ]; then . '/home/marvin/sdk/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/marvin/sdk/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/marvin/sdk/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Scaleway CLI autocomplete initialization.
+eval "$(scw autocomplete script shell=zsh)"
