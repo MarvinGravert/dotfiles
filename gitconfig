@@ -1,6 +1,6 @@
 [user]
 	name = Marvin Gravert
-	email = marvin.gravert@gmail.com
+	email = marvin.g@noota.io
 [includeIf "gitdir:~/reposWork/"]
     path = ~/reposWork/.gitconfig
 [core]
@@ -59,8 +59,40 @@
     lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
     lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
 	count-lines = "! git log --author=\"$1\" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf \"added lines: %s, removed lines: %s, total lines: %s\\n\", add, subs, loc }' #"
+  recent = "!git branch --sort=-committerdate"
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[init]
+	defaultBranch = main
+[advice]
+	pushNonFastForward = false
+# https://blog.gitbutler.com/how-git-core-devs-configure-git/
+# Sorting based on last commit and putting branches in columns
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+# Sorting tags correctly => 0.5.101 before 0.5.1000 for example
+[tag]
+        sort = version:refname
+# a different algorithm plus color => more readable
+[diff]
+        algorithm = histogram
+        colorMoved = plain
+        mnemonicPrefix = true
+        renames = true
+# auto pushes the tags and setups the remote if it doesnt exists
+[push]
+        autoSetupRemote = true
+        followTags = true
+# remove orgin/X branches locally which have been removed on origin
+[fetch]
+        prune = true
+        pruneTags = true
+        all = true
+# adds the change set into the file where git message can be typed
+[commit]
+        verbose = true
